@@ -123,6 +123,6 @@ public class CounterGUI extends JFrame implements ActionListener {
 	}
 	
 // NIE MAM POJECIA CO DALEJ
-	//WIEM CO CHCIALABYM ZROBIC ALE NIE WIEM JAK SIE ZABRAC :(((
+	//WIEM CO CHCIALABYM ZROBIC, ALE NIE WIEM JAK SIE ZABRAC :(((
 	///
 }
