@@ -43,10 +43,12 @@ public class CounterGUI extends JFrame implements ActionListener {
 		opisCVR = new JLabel("CVR");
 		pLewy.add(opisCVR);
 		rejCVR = new JTextField(3);
+		rejCVR.setEnabled(false);
 		pLewy.add(rejCVR);
 		opisRVR = new JLabel("RVR");
 		pLewy.add(opisRVR);
 		rejRVR = new JTextField(3);
+		rejRVR.setEnabled(false);
 		pLewy.add(rejRVR);
 		
 		rejCVR.addActionListener(this);
@@ -120,14 +122,5 @@ public class CounterGUI extends JFrame implements ActionListener {
 		rejRVR.setText("" + myDemoCounter.getRVR());
 	}
 	
-	class CounterInfoComponent extends JComponent {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
 
-		public void paintComponent(Graphics g) {
-			
-		}
-	}
 }
