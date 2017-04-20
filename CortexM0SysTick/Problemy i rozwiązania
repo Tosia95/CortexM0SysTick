@@ -1,0 +1,28 @@
+Aktywne:
+1. Obsługa zdarzenia przerwania(zaimplementownego z wykorzystaniem interfejsu Observable) w GUI 
+
+Jak rozwiązać?
+Ustawić słuchacza, który będzie rejsjtrował zmiany na obiekcie odpowiedzialnym za przerwanie. 
+Klasy. które mogą się przydać: EventHandler, EventObject, Object
+
+2.Brak reakcji na impuls w GUI po zmianach w obsłudze zdarzeń (wprowadzenie klas anonimowych, wpisywanie wartości z pol tekstowych do obiektu)
+
+Jak rozwiązać? Cholera wie.
+
+3.Włączanie i wyłączanie countFlag pod wpływem działania programu a nie użytkownika
+
+Jak rozwiązać?
+Na bank ActionListener
+
+
+
+
+Rozwiązane:
+1. Błąd występujący przy próbie wciśnięcia przycisku. ---> NumberFormatException
+Powód: Błąd występował w momencie rzutowania tekstu z pola w GUI na Integer (aby móc go przypisać parametrowi obiektu). Wyjątek występował,
+gdyż istaniała możliwość rzutowania pustego tekstu.
+
+Rozwiązanie: Obsługa wyjątku z wykorzystaniem konstrukcji try catch.
+
+Uwagi: bład nie występuje w środowisku BlueJ.
+????
