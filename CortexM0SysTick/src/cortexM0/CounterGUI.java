@@ -43,30 +43,51 @@ public class CounterGUI extends JFrame implements ActionListener {
 		opisCVR = new JLabel("CVR");
 		pLewy.add(opisCVR);
 		rejCVR = new JTextField(3);
-		rejCVR.setEnabled(false);
+		rejCVR.setEnabled(true);
 		pLewy.add(rejCVR);
 		opisRVR = new JLabel("RVR");
 		pLewy.add(opisRVR);
 		rejRVR = new JTextField(3);
-		rejRVR.setEnabled(false);
+		rejRVR.setEnabled(true);
 		pLewy.add(rejRVR);
 		
-		rejCVR.addActionListener(this);
-		rejRVR.addActionListener(this);
+		rejCVR.addActionListener(e -> {
+			try {
+			myDemoCounter.setCVR(Integer.parseInt(rejCVR.getText()));
+			} catch (NumberFormatException nf) {}
+			rejCVR.setText(myDemoCounter.getCVR()+ "");
+		}
+		);
+		
+		rejRVR.addActionListener(e -> { //wyrazenie LAMBDA
+			try {
+			myDemoCounter.setRVR(Integer.parseInt(rejRVR.getText()));
+			} catch (NumberFormatException nf) {}
+			rejRVR.setText(myDemoCounter.getRVR() + "");
+		}
+);
 		
 		
 		//flagi - Panel Lewy
 		countFlag = new JRadioButton();
 		JLabel opisCount = new JLabel("CountFlag");
 		countFlag.setEnabled(true);
-		countFlag.addActionListener(this);
+		countFlag.addActionListener(e -> {
+			myDemoCounter.setEnableFlag(countFlag.isSelected());
+		});
 		pLewy.add(opisCount);
 		pLewy.add(countFlag);
 		
 		enableFlag = new JRadioButton();
 		JLabel opisEnable = new JLabel("EnableFlag");
 		enableFlag.setEnabled(true);
-		enableFlag.addActionListener(this);
+		enableFlag.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myDemoCounter.setEnableFlag(enableFlag.isSelected());
+				//displayCounterState
+			}
+			
+		});
 		pLewy.add(opisEnable);
 		pLewy.add(enableFlag);
 		
@@ -94,6 +115,8 @@ public class CounterGUI extends JFrame implements ActionListener {
 
 		
 		validate();
+		
+		
 		pack();
 	}
 	/************************************************
@@ -104,22 +127,20 @@ public class CounterGUI extends JFrame implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		if(e.getSource() == enableFlag) 
-			myDemoCounter.setEnableFlag(enableFlag.isSelected());
-			//pLewy.setBackground(Color.GREEN);
-		
-		if(e.getSource() == tickingFlag) 
-			myDemoCounter.setTickingFlag(tickingFlag.isSelected());
-		
+		int n = 0;
+		try {
+		n = Integer.parseInt(kImpuls.getText()); 
+		} catch (NumberFormatException nf) {}
+		for (int i = 0; i <= n; i++) {
+			myDemoCounter.impuls(); }
+;
+			
 		if(e.getSource() == jImpuls)
 			myDemoCounter.impuls();
 		
 		if(e.getSource() == stoImpuls)
 			for(int i =0; i <= 100; i++) myDemoCounter.impuls();
-		
-		rejCVR.setText("" + myDemoCounter.getCVR());
-		rejRVR.setText("" + myDemoCounter.getRVR());
+
 	}
 	
 // NIE MAM POJECIA CO DALEJ

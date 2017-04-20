@@ -17,7 +17,7 @@ public class CortexM0SysTick extends Observable {
 	 * Zapis do tego rejestru zeruje go. Zawsze po wywoĹ‚aniu tej metody CVR = 0
 	 * oraz bit countFlag ustawiany jest na 0.
 	 */
-	public void setCVR() {
+	public void setCVR(int ccc) {
 		this.CVR = 0;
 		countFlag = false;
 	}

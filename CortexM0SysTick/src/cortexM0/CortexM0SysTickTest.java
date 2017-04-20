@@ -16,7 +16,7 @@ public class CortexM0SysTickTest {
 	public void testSetRVR() {
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setRVR(5);
-		cortexM01.setCVR();
+		cortexM01.setCVR(2);
 		cortexM01.impuls();
 		assertEquals(0, cortexM01.getCVR());
 		cortexM01.setEnableFlag(true);
@@ -31,7 +31,7 @@ public class CortexM0SysTickTest {
 	@Test
 	public void testSetCVR() {
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
-		cortexM01.setCVR();
+		cortexM01.setCVR(2);
 		assertEquals(0, cortexM01.getCVR());
 		assertEquals(false, cortexM01.isCountFlag());
 	}
@@ -51,7 +51,7 @@ public class CortexM0SysTickTest {
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setEnableFlag(true);
 		cortexM01.setRVR(5);
-		cortexM01.setCVR();
+		cortexM01.setCVR(2);
 		// cortexM01.impuls();
 		assertEquals(0, cortexM01.getCVR());
 
@@ -71,7 +71,7 @@ public class CortexM0SysTickTest {
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setEnableFlag(true);
 		cortexM01.setRVR(5);
-		cortexM01.setCVR();
+		cortexM01.setCVR(2);
 		assertEquals(0, cortexM01.getCVR());
 		assertEquals(false, cortexM01.isCountFlag());
 		cortexM01.impuls();
