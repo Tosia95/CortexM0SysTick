@@ -54,18 +54,17 @@ public class CounterGUI extends JFrame implements ActionListener {
 		rejCVR.addActionListener(e -> {
 			try {
 			myDemoCounter.setCVR(Integer.parseInt(rejCVR.getText()));
+			rejCVR.setText(myDemoCounter.getCVR()+ "");
 			} catch (NumberFormatException nf) {}
 			rejCVR.setText(myDemoCounter.getCVR()+ "");
-		}
-		);
+		});
 		
 		rejRVR.addActionListener(e -> { //wyrazenie LAMBDA
 			try {
 			myDemoCounter.setRVR(Integer.parseInt(rejRVR.getText()));
 			} catch (NumberFormatException nf) {}
 			rejRVR.setText(myDemoCounter.getRVR() + "");
-		}
-);
+		});
 		
 		
 		//flagi - Panel Lewy
@@ -102,8 +101,12 @@ public class CounterGUI extends JFrame implements ActionListener {
 		kImpuls = new JTextField(10);
 		jImpuls = new JButton("1 impuls");
 		stoImpuls = new JButton("100 impulsów");
-		jImpuls.addActionListener(this);
-		stoImpuls.addActionListener(this);
+		jImpuls.addActionListener(e -> {
+			myDemoCounter.impuls();
+		});
+		stoImpuls.addActionListener(e -> {
+			for(int i =0; i <= 100; i++) myDemoCounter.impuls();
+		});
 		pSrodkowy.add(jImpuls);
 		pSrodkowy.add(stoImpuls);
 		pSrodkowy.add(kImpuls);
@@ -133,13 +136,6 @@ public class CounterGUI extends JFrame implements ActionListener {
 		} catch (NumberFormatException nf) {}
 		for (int i = 0; i <= n; i++) {
 			myDemoCounter.impuls(); }
-;
-			
-		if(e.getSource() == jImpuls)
-			myDemoCounter.impuls();
-		
-		if(e.getSource() == stoImpuls)
-			for(int i =0; i <= 100; i++) myDemoCounter.impuls();
 
 	}
 	
