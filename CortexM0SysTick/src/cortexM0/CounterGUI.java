@@ -5,23 +5,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CounterGUI extends JFrame implements ActionListener {
+public class CounterGUI extends JFrame implements ActionListener
+{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	JLabel opisCVR, opisRVR;
-	JTextField rejCVR, rejRVR, kImpuls;
-	JButton jImpuls, stoImpuls;
-	JRadioButton tickingFlag, enableFlag, countFlag;
+	JLabel textCVR, textRVR;
+	JTextField regCVR, regRVR, kImpText;
+	JButton oneImp, hImp, kImp;
+	JRadioButton ticking, enable, count, genOnOff;
 	PulseGenerator generator;
 	CortexM0SysTick myDemoCounter = new CortexM0SysTick();
 
 	/*
 	 * 
 	 */
-	public CounterGUI() {
+	public CounterGUI()
+	{
 		setSize(444, 444);
 		createGUI();
 		generator = new PulseGenerator();
@@ -29,151 +31,218 @@ public class CounterGUI extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
-	public void createGUI() {
+	public void createGUI()
+	{
 
 		// Container contentPane = getContentPane();
 
 		// dzielenie okna na panele i ustawianie układu paneli
 		setLayout(new BorderLayout());
 
-		JPanel pLewy = new JPanel();
-		JPanel pSrodkowy = new JPanel();
-		JPanel pPrawy = new JPanel();
-		add(pLewy, BorderLayout.WEST);
-		add(pSrodkowy, BorderLayout.CENTER);
-		add(pPrawy, BorderLayout.EAST);
+		JPanel pLeft = new JPanel();
+		JPanel pCenter = new JPanel();
+		JPanel pRight = new JPanel();
+		add(pLeft, BorderLayout.WEST);
+		add(pCenter, BorderLayout.CENTER);
+		add(pRight, BorderLayout.EAST);
 
-		pLewy.setLayout(new GridLayout(0, 2));
+		// pLeft.setBackground(Color.YELLOW);
+		// pCenter.setBackground(Color.GREEN);
+		// pRight.setBackground(Color.RED);
 
-		// rejestry - Panel Lewy
+		pLeft.setLayout(new GridLayout(0, 2));
 
-		opisCVR = new JLabel("CVR");
-		rejCVR = new JTextField(3);
-		rejCVR.setEnabled(true);
+		/************************************************
+		 * LEFT PANEL REGISTERS
+		 */
 
-		opisRVR = new JLabel("RVR");
-		rejRVR = new JTextField(3);
-		rejRVR.setEnabled(true);
+		textCVR = new JLabel("CVR");
+		regCVR = new JTextField(3);
+		regCVR.setEnabled(true);
 
-		pLewy.add(rejRVR);
-		pLewy.add(opisCVR);
-		pLewy.add(opisRVR);
-		pLewy.add(rejCVR);
+		textRVR = new JLabel("RVR");
+		regRVR = new JTextField(3);
+		regRVR.setEnabled(true);
 
-		rejCVR.addActionListener(e -> {
-			try {
-				myDemoCounter.setCVR(Integer.parseInt(rejCVR.getText()));
-				rejCVR.setText(myDemoCounter.getCVR() + "");
-			} catch (NumberFormatException nf) {
+		pLeft.add(regRVR);
+		pLeft.add(textCVR);
+		pLeft.add(textRVR);
+		pLeft.add(regCVR);
+
+		regCVR.addActionListener(e ->
+		{
+			try
+			{
+				myDemoCounter.setCVR(Integer.parseInt(regCVR.getText()));
+				regCVR.setText(myDemoCounter.getCVR() + "");
+			} catch (NumberFormatException nf)
+			{
 			}
-			rejCVR.setText(myDemoCounter.getCVR() + "");
+			regCVR.setText(myDemoCounter.getCVR() + "");
 		});
 
-		rejRVR.addActionListener(e -> { // wyrazenie LAMBDA
-			try {
-				myDemoCounter.setRVR(Integer.parseInt(rejRVR.getText()));
-			} catch (NumberFormatException nf) {
+		regRVR.addActionListener(e ->
+		{
+			try
+			{
+				myDemoCounter.setRVR(Integer.parseInt(regRVR.getText()));
+			} catch (NumberFormatException nf)
+			{
 			}
-			rejRVR.setText(myDemoCounter.getRVR() + "");
+			regRVR.setText(myDemoCounter.getRVR() + "");
 		});
 
-		// flagi - Panel Lewy
+		count = new JRadioButton();
+		JLabel textCount = new JLabel("Count Flag");
+		count.setEnabled(true);
 
-		countFlag = new JRadioButton();
-		JLabel opisCount = new JLabel("CountFlag");
-		countFlag.setEnabled(true);
-
-		countFlag.addActionListener(e -> {
-			myDemoCounter.setEnableFlag(countFlag.isSelected());
+		count.addActionListener(e ->
+		{
+			myDemoCounter.setCountFlag(count.isSelected());
 		});
 
-		pLewy.add(opisCount);
-		pLewy.add(countFlag);
+		pLeft.add(textCount);
+		pLeft.add(count);
 
-		enableFlag = new JRadioButton();
-		JLabel opisEnable = new JLabel("EnableFlag");
-		enableFlag.setEnabled(true);
+		enable = new JRadioButton();
+		JLabel textEnable = new JLabel("Enable Flag");
+		enable.setEnabled(true);
 
-		enableFlag.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				myDemoCounter.setEnableFlag(enableFlag.isSelected());
+		enable.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				myDemoCounter.setEnableFlag(enable.isSelected());
 				// displayCounterState
 			}
 		});
 
-		pLewy.add(opisEnable);
-		pLewy.add(enableFlag);
+		pLeft.add(textEnable);
+		pLeft.add(enable);
 
-		tickingFlag = new JRadioButton();
-		JLabel opisTicking = new JLabel("TickingFlag");
-		tickingFlag.setEnabled(true);
-		tickingFlag.addActionListener(this);
+		ticking = new JRadioButton();
+		JLabel textTicking = new JLabel("Ticking Flag");
+		ticking.setEnabled(true);
 
-		pLewy.add(opisTicking);
-		pLewy.add(tickingFlag);
-
-		// przycisk wysylania impulsow
-		kImpuls = new JTextField(10);
-		jImpuls = new JButton("1 impuls");
-		stoImpuls = new JButton("100 impulsów");
-		jImpuls.addActionListener(new ActionListener() 
+		ticking.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent e) 
+			public void actionPerformed(ActionEvent e)
 			{
-				myDemoCounter.impuls();
-				rejCVR.setText("" + myDemoCounter.getCVR());
-				rejRVR.setText("" + myDemoCounter.getRVR());
-				
-				if (myDemoCounter.isCountFlag()) 
-				{
-					myDemoCounter.setCountFlag(true);
-					countFlag.setSelected(true);
-				} 
-				else
-					countFlag.setSelected(false);
-
-				if (myDemoCounter.isTickingFlag()) 
-				{
-					if (myDemoCounter.isCountFlag())
-					myDemoCounter.setCountFlag(true);
-					tickingFlag.setSelected(true);
-				}	 
-				else
-					tickingFlag.setSelected(false);
+				myDemoCounter.setEnableFlag(ticking.isSelected());
+				// displayCounterState
 			}
 		});
 
-		stoImpuls.addActionListener(new ActionListener()
+		pLeft.add(textTicking);
+		pLeft.add(ticking);
+
+		/************************************
+		 * CENTER PANEL IMPULS SENDING 
+		 */
+		pCenter.setLayout(new GridLayout(0, 2));
+		kImpText = new JTextField(10);
+		oneImp = new JButton("1 impuls");
+		hImp = new JButton("100 imp");
+		kImp = new JButton("send");
+
+		oneImp.addActionListener(new ActionListener()
 		{
-            public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i<100; i++)
-                    myDemoCounter.impuls();
-                rejCVR.setText("" +myDemoCounter.getCVR());
-                rejRVR.setText("" +myDemoCounter.getRVR());
-                if(myDemoCounter.isCountFlag()) {
-                    myDemoCounter.setCountFlag(true);
-                    countFlag.setSelected(true);
-                } else
-                    countFlag.setSelected(false);
-                
-                if(myDemoCounter.isTickingFlag()) {
-                    if(myDemoCounter.isCountFlag())
-                        myDemoCounter.setCountFlag(true);
-                    tickingFlag.setSelected(true);
-                } else
-                    tickingFlag.setSelected(false);
-            }
-        });
+			public void actionPerformed(ActionEvent e)
+			{
+				myDemoCounter.impuls();
+				regCVR.setText("" + myDemoCounter.getCVR());
+				regRVR.setText("" + myDemoCounter.getRVR());
 
+				if (myDemoCounter.isCountFlag())
+				{
+					myDemoCounter.setCountFlag(true);
+					count.setSelected(true);
+				} else
+					count.setSelected(false);
 
-		pSrodkowy.add(jImpuls);
-		pSrodkowy.add(stoImpuls);
-		pSrodkowy.add(kImpuls);
+				if (myDemoCounter.isTickingFlag())
+				{
+					if (myDemoCounter.isCountFlag())
+						myDemoCounter.setCountFlag(true);
+					ticking.setSelected(true);
+				} else
+					ticking.setSelected(false);
+			}
+		});
+
+		hImp.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				for (int i = 0; i < 100; i++)
+					myDemoCounter.impuls();
+				regCVR.setText("" + myDemoCounter.getCVR());
+				regRVR.setText("" + myDemoCounter.getRVR());
+				if (myDemoCounter.isCountFlag())
+				{
+					myDemoCounter.setCountFlag(true);
+					count.setSelected(true);
+				} else
+					count.setSelected(false);
+
+				if (myDemoCounter.isTickingFlag())
+				{
+					if (myDemoCounter.isCountFlag())
+						myDemoCounter.setCountFlag(true);
+					ticking.setSelected(true);
+				} else
+					ticking.setSelected(false);
+			}
+		});
+
+		kImp.addActionListener(new ActionListener()
+		{
+			int kImp = 0;
+
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+				{
+					kImp = Integer.parseInt(kImpText.getText());
+				} catch (NumberFormatException nf)
+				{
+				}
+				
+				for (int i = 0; i < kImp; i++)
+					myDemoCounter.impuls();
+				regCVR.setText("" + myDemoCounter.getCVR());
+				regRVR.setText("" + myDemoCounter.getRVR());
+				if (myDemoCounter.isCountFlag())
+				{
+					myDemoCounter.setCountFlag(true);
+					count.setSelected(true);
+				} else
+					count.setSelected(false);
+
+				if (myDemoCounter.isTickingFlag())
+				{
+					if (myDemoCounter.isCountFlag())
+						myDemoCounter.setCountFlag(true);
+					ticking.setSelected(true);
+				} else
+					ticking.setSelected(false);
+			}
+		});
+
+		pCenter.add(oneImp);
+		pCenter.add(hImp);
+		pCenter.add(kImp);
+		pCenter.add(kImpText);
+
+		/*****************************************************
+		 * RIGHT PANEL GENERATOR
+		 * ***************************************************
+		 */
 
 		JRadioButton genOnOff = new JRadioButton();
 		JLabel etGenerator = new JLabel("Generator", SwingConstants.CENTER);
-		pPrawy.add(etGenerator);
-		pPrawy.add(genOnOff);
+		pRight.add(etGenerator);
+		pRight.add(genOnOff);
 
 		validate();
 
@@ -183,24 +252,15 @@ public class CounterGUI extends JFrame implements ActionListener {
 	/************************************************
 	 * main
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		new CounterGUI();
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		int n = 0;
-		try {
-			n = Integer.parseInt(kImpuls.getText());
-		} catch (NumberFormatException nf) {
-		}
-		for (int i = 0; i <= n; i++) {
-			myDemoCounter.impuls();
-		}
+	public void actionPerformed(ActionEvent e)
+	{
 
 	}
 
-	// NIE MAM POJECIA CO DALEJ
-	// WIEM CO CHCIALABYM ZROBIC, ALE NIE WIEM JAK SIE ZABRAC :(((
-	///
 }
