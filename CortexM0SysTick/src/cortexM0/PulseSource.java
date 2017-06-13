@@ -11,7 +11,7 @@ public interface PulseSource {
     void trigger() ;
     void setMode(byte mode) ;
     byte getMode() ;
-    void halt() ;   // zatrzymaj generację 
+    void halt() ;   // zatrzymaj generacje
     void setPulseDelay(int ms) ;
     int getPulseDelay() ;
     void setPulseCount(int burst) ;

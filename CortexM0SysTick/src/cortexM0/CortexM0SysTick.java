@@ -12,9 +12,9 @@ public class CortexM0SysTick extends Observable
 	public CortexM0SysTick()
 	{
 		// initialise instance variables
-		Random rand=new Random();
-        CVR=rand.nextInt(555555);
-        RVR=rand.nextInt(444444);
+		Random rand = new Random();
+		CVR = rand.nextInt(55555);
+		RVR = rand.nextInt(44444);
 	}
 
 	/**
@@ -111,6 +111,9 @@ public class CortexM0SysTick extends Observable
 			}
 		}
 	}
+
+	
+	
 
 	public String toString()
 	{
