@@ -2,7 +2,6 @@ package cortexM0;
 
 import javax.swing.*;
 import javax.swing.event.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -17,53 +16,77 @@ class CounterGUI extends JFrame implements ActionListener
 	JLabel textCVR, textRVR;
 	JTextField regCVR, regRVR, kImpText, genMode;
 	JButton oneImp, hImp, kImp;
-	JRadioButton ticking, enable, count, genOnOff, bGen, cGen;
+	JRadioButton ticking, enable, count;
 	PulseGenerator generator;
 	CortexM0SysTick myDemoCounter;
 	Knob burstGen, contGen;
-	//JFrame frame;
+	JToggleButton genOnOff, cGen, bGen;
+
+	private JMenu help;
+	private JMenuBar menuBar;
+	private JMenuItem exit, about;
+
+	// JFrame frame;
 
 	/*
 	 * 
 	 */
 	public CounterGUI()
-	{	
+	{
 		myDemoCounter = new CortexM0SysTick();
-		
-		
-		
-		setSize(1000, 500);
+
+		setSize(1000, 700);
 		setTitle("CortexM0 SysTick Simulator");
 		toBack();
-		
+
 		generator = new PulseGenerator();
 		generator.addActionListener(this);
 		setVisible(true);
+
 		createGUI();
 	}
 
 	public void createGUI()
-	{	
+	{
 		
+		Image img = new ImageIcon("icon.png").getImage();
+		setIconImage(img);
+		
+		exit = new JMenuItem("Exit");
+		about = new JMenuItem("About");
+		help = new JMenu("Help");
+		help.add(about);
+		help.add(exit);
+		menuBar = new JMenuBar();
+		menuBar.add(help);
+		setJMenuBar(menuBar);
+
+		about.addActionListener(e ->
+		{
+			JOptionPane.showMessageDialog(null,
+					"CortexM0 SysTick Simulator\n@Aleksandra Tusiñska 218804\n@version 14.06.2017 ");
+		});
+		exit.addActionListener(e ->
+		{
+			System.exit(0);
+		});
+
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-	       addWindowListener(new WindowAdapter() {
-	         public void windowClosing(WindowEvent e){
-	           String ObjButtons[] = {"Yes","No"};
-	           int res = JOptionPane.showOptionDialog(null, 
-	           "Are You Sure?", "Cortex M0 SysTick Simulator", 
-	           JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, 
-	           ObjButtons,ObjButtons[1]);
-	           if(res==0)
-	           {
-	               System.exit(0);          
-	           }
-	         }
-	       });     
-	       
-	       
-		
-		
-		
+		addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
+				String ObjButtons[] =
+				{ "Yes", "No" };
+				int res = JOptionPane.showOptionDialog(null, "Are You Sure?", "Cortex M0 SysTick Simulator",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, ObjButtons, ObjButtons[1]);
+				if (res == 0)
+				{
+					System.exit(0);
+				}
+			}
+		});
+
 		/////////////////////////////////////////////////////////////
 
 		// dzielenie okna na panele i ustawianie ukÅ‚adu paneli
@@ -73,8 +96,8 @@ class CounterGUI extends JFrame implements ActionListener
 		JPanel pCenter = new JPanel();
 		JPanel pRight = new JPanel();
 		add(pLeft, BorderLayout.EAST);
-		add(pCenter, BorderLayout.CENTER);
-		add(pRight, BorderLayout.WEST);
+		add(pCenter, BorderLayout.NORTH);
+		add(pRight, BorderLayout.CENTER);
 
 		// pLeft.setBackground(Color.YELLOW);
 		// pCenter.setBackground(Color.GREEN);
@@ -93,7 +116,7 @@ class CounterGUI extends JFrame implements ActionListener
 
 		textRVR = new JLabel("RVR");
 		regRVR = new JTextField(3);
-		regRVR.setPreferredSize(new Dimension(200, 100));
+		regRVR.setPreferredSize(new Dimension(50, 50));
 		regRVR.setEnabled(true);
 
 		pLeft.add(textRVR);
@@ -171,17 +194,12 @@ class CounterGUI extends JFrame implements ActionListener
 		/************************************
 		 * CENTER PANEL IMPULS SENDING
 		 */
-		pCenter.setLayout(new GridLayout(0, 2));
+		pCenter.setLayout(new FlowLayout());
 
 		kImpText = new JTextField(10);
-		oneImp = new JButton("1 impuls");
-		hImp = new JButton("100 imp");
+		oneImp = new JButton("1 impulse");
+		hImp = new JButton("100 pulse");
 		kImp = new JButton("Enter the number of pulse and press");
-
-		kImpText.setPreferredSize(new Dimension(40, 40));
-		oneImp.setPreferredSize(new Dimension(40, 40));
-		hImp.setPreferredSize(new Dimension(40, 40));
-		kImp.setPreferredSize(new Dimension(40, 40));
 
 		oneImp.addActionListener(new ActionListener()
 		{
@@ -282,33 +300,47 @@ class CounterGUI extends JFrame implements ActionListener
 		JPanel cMode = new JPanel();
 		JPanel bMode = new JPanel();
 		JPanel titleGen = new JPanel();
-		pRight.add(cMode, BorderLayout.CENTER);
-		pRight.add(bMode, BorderLayout.SOUTH);
+
+
+
+		cMode.setLayout(new BoxLayout(cMode, 1));
+		cMode.setPreferredSize(new Dimension(200, 200));
+		bMode.setPreferredSize(new Dimension(200, 200));
+		bMode.setLayout(new BoxLayout(bMode, 1));
+
+		pRight.add(cMode, BorderLayout.WEST);
+		pRight.add(bMode, BorderLayout.EAST);
 		pRight.add(titleGen, BorderLayout.NORTH);
 
-		JRadioButton genOnOff = new JRadioButton();
+		genOnOff = new JToggleButton("On");
 		JLabel etGenerator = new JLabel("Generator");
 		JLabel bText = new JLabel("Burst Mode");
 		JLabel cText = new JLabel("Continuous Mode");
 
 		burstGen = new Knob();
 		contGen = new Knob();
-		bGen = new JRadioButton();
+		bGen = new JToggleButton("On");
 		bGen.setPreferredSize(new Dimension(40, 40));
-		cGen = new JRadioButton();
+		cGen = new JToggleButton("On");
 		cGen.setPreferredSize(new Dimension(40, 40));
+
+		int cV = contGen.convertToHz(contGen.getKnobValue());
+		int bV = burstGen.convertToHz(burstGen.getKnobValue());
 
 		genOnOff.addActionListener(e ->
 		{
 			if (genOnOff.isSelected())
-			{	
-				JOptionPane.showMessageDialog(this, "Generator is on. Choose mode");
-				generator.trigger();
+			{
+				JOptionPane.showMessageDialog(this, "Generator is on. Please choose mode");
+				genOnOff.setText("Off");
 			} else
 			{
 				generator.halt();
 				cGen.setSelected(false);
+				genOnOff.setText("On");
 				bGen.setSelected(false);
+				cGen.setText("On");
+				bGen.setText("On");
 			}
 		});
 
@@ -318,8 +350,19 @@ class CounterGUI extends JFrame implements ActionListener
 			refresh();
 			if (genOnOff.isSelected())
 			{
-				generator.trigger();
-				cGen.setSelected(false);
+				if (bGen.isSelected())
+				{
+					generator.trigger();
+					cGen.setSelected(false);
+					bGen.setText("Off");
+					cGen.setText("On");
+				} else
+				{
+					generator.halt();
+					cGen.setSelected(false);
+					bGen.setText("On");
+
+				}
 			}
 		});
 
@@ -329,8 +372,19 @@ class CounterGUI extends JFrame implements ActionListener
 			refresh();
 			if (genOnOff.isSelected())
 			{
-				generator.trigger();
-				bGen.setSelected(false);
+				if (cGen.isSelected())
+				{
+					generator.trigger();
+					bGen.setSelected(false);
+					cGen.setText("Off");
+					bGen.setText("On");
+
+				} else
+				{
+					generator.halt();
+					cGen.setText("On");
+					bGen.setSelected(false);
+				}
 			}
 		});
 
@@ -340,7 +394,7 @@ class CounterGUI extends JFrame implements ActionListener
 			{
 				int frequency = burstGen.convertToHz(burstGen.getKnobValue());
 				int time_ms = Math.round(1000 / frequency);
-				generator.setPulseDelay(time_ms);
+				generator.setPulseCount(time_ms);
 			}
 		});
 
@@ -356,6 +410,7 @@ class CounterGUI extends JFrame implements ActionListener
 
 		titleGen.add(etGenerator);
 		titleGen.add(genOnOff);
+		
 		cMode.add(cText);
 		cMode.add(cGen);
 		cMode.add(contGen);
@@ -365,32 +420,19 @@ class CounterGUI extends JFrame implements ActionListener
 
 		validate();
 
-		// pack();
-		
+		pack();
 
 	}
 
 	public void refresh()
 	{
 		String toString = myDemoCounter.toString();
-		// String tostringtab[] = tostring.split("\\s+");
 
 		regCVR.setText(String.valueOf(myDemoCounter.getCVR()));
 		regRVR.setText(String.valueOf(myDemoCounter.getRVR()));
-		// TF_InterruptNumber.setText(String.valueOf(NoOfInterrupts));
-		/*
-		 * if (generator.getMode() == generator.BURST_MODE)
-		 * genMode.setText("Burst"); else genMode.setText("Continuous");
-		 */
+		
 	}
 
-	/*
-	 * public void update(Observable subject, Object arg) { NoOfInterrupts++; }
-	 */
-	public void stateChanged(ChangeEvent e)
-	{
-		generator.setPulseCount(burstGen.getKnobValue());
-	}
 
 	public void actionPerformed(ActionEvent e)
 	{

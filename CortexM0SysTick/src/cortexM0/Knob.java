@@ -59,6 +59,9 @@ public class Knob extends Component implements MouseListener, MouseMotionListene
 		g.fillOval((w - r) / 2, (h - r) / 2, r+10, r+10);
 		
 		g.setColor(Color.gray);
+		g.fillOval((w - r) / 2, (h - r) / 2, r+5, r+5);
+		
+		g.setColor(Color.pink);
 		g.fillOval((w - r) / 2, (h - r) / 2, r - 1, r - 1);
 		//g.setColor(Color.black);
 		//g.drawString("0",r-,r);
@@ -70,11 +73,13 @@ public class Knob extends Component implements MouseListener, MouseMotionListene
 				w / 2 + (int) ((r / 2 - 5) * Math.cos(alfa * Math.PI / 180)),
 				h / 2 - (int) ((r / 2 - 5) * Math.sin(alfa * Math.PI / 180)));
 
-		//static int s0 = h;
-		
-		g.drawString("0", r/2, r/2-h);
-		g.setColor(Color.black);
-	}
+
+	    g.setColor(Color.black);
+	    setFont(new Font("Helvetica", Font.BOLD, 16));     
+	    g.drawString(new Integer(convertToHz(newKnobValue)).toString(), w/2-10, h/2-5);
+	     }
+
+	
 	public void setKnobValue(int newKnobValue)
 	{
 		this.newKnobValue = newKnobValue;
