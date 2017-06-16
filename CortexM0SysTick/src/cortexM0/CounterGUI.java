@@ -1,16 +1,16 @@
 package cortexM0;
 
+import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.*;
+import java.io.IOException;
 import java.util.*;
 
 class CounterGUI extends JFrame implements ActionListener
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	JLabel textCVR, textRVR;
@@ -26,11 +26,6 @@ class CounterGUI extends JFrame implements ActionListener
 	private JMenuBar menuBar;
 	private JMenuItem exit, about;
 
-	// JFrame frame;
-
-	/*
-	 * 
-	 */
 	public CounterGUI()
 	{
 		myDemoCounter = new CortexM0SysTick();
@@ -44,14 +39,20 @@ class CounterGUI extends JFrame implements ActionListener
 		setVisible(true);
 
 		createGUI();
+
+		try
+		{
+			java.net.URL rec = getClass().getResource("/icon.png");
+			BufferedImage img = ImageIO.read(rec);
+			setIconImage(img);
+		} catch (IOException e)
+		{
+		}
 	}
 
 	public void createGUI()
 	{
-		
-		Image img = new ImageIcon("icon.png").getImage();
-		setIconImage(img);
-		
+
 		exit = new JMenuItem("Exit");
 		about = new JMenuItem("About");
 		help = new JMenu("Help");
@@ -89,7 +90,6 @@ class CounterGUI extends JFrame implements ActionListener
 
 		/////////////////////////////////////////////////////////////
 
-		// dzielenie okna na panele i ustawianie układu paneli
 		setLayout(new BorderLayout());
 
 		JPanel pLeft = new JPanel();
@@ -98,10 +98,6 @@ class CounterGUI extends JFrame implements ActionListener
 		add(pLeft, BorderLayout.EAST);
 		add(pCenter, BorderLayout.NORTH);
 		add(pRight, BorderLayout.CENTER);
-
-		// pLeft.setBackground(Color.YELLOW);
-		// pCenter.setBackground(Color.GREEN);
-		// pRight.setBackground(Color.RED);
 
 		pLeft.setLayout(new GridLayout(0, 2));
 
@@ -168,7 +164,6 @@ class CounterGUI extends JFrame implements ActionListener
 			public void actionPerformed(ActionEvent e)
 			{
 				myDemoCounter.setEnableFlag(enable.isSelected());
-				// displayCounterState
 			}
 		});
 
@@ -184,7 +179,6 @@ class CounterGUI extends JFrame implements ActionListener
 			public void actionPerformed(ActionEvent e)
 			{
 				myDemoCounter.setEnableFlag(ticking.isSelected());
-				// displayCounterState
 			}
 		});
 
@@ -301,8 +295,6 @@ class CounterGUI extends JFrame implements ActionListener
 		JPanel bMode = new JPanel();
 		JPanel titleGen = new JPanel();
 
-
-
 		cMode.setLayout(new BoxLayout(cMode, 1));
 		cMode.setPreferredSize(new Dimension(200, 200));
 		bMode.setPreferredSize(new Dimension(200, 200));
@@ -410,7 +402,7 @@ class CounterGUI extends JFrame implements ActionListener
 
 		titleGen.add(etGenerator);
 		titleGen.add(genOnOff);
-		
+
 		cMode.add(cText);
 		cMode.add(cGen);
 		cMode.add(contGen);
@@ -430,9 +422,8 @@ class CounterGUI extends JFrame implements ActionListener
 
 		regCVR.setText(String.valueOf(myDemoCounter.getCVR()));
 		regRVR.setText(String.valueOf(myDemoCounter.getRVR()));
-		
-	}
 
+	}
 
 	public void actionPerformed(ActionEvent e)
 	{

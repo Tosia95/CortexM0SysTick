@@ -5,15 +5,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CortexM0SysTickTest {
-	/**
-	 * Default constructor for test class CortexM0SysTickTest
-	 */
-	public CortexM0SysTickTest() {
+public class CortexM0SysTickTest
+{
+
+	public CortexM0SysTickTest()
+	{
 	}
 
 	@Test
-	public void testSetRVR() {
+	public void testSetRVR()
+	{
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setRVR(5);
 		cortexM01.setCVR(2);
@@ -29,7 +30,8 @@ public class CortexM0SysTickTest {
 	}
 
 	@Test
-	public void testSetCVR() {
+	public void testSetCVR()
+	{
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setCVR(2);
 		assertEquals(0, cortexM01.getCVR());
@@ -37,7 +39,8 @@ public class CortexM0SysTickTest {
 	}
 
 	@Test
-	public void testTicking() {
+	public void testTicking()
+	{
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setTickingFlag(true);
 		cortexM01.isTickingFlag();
@@ -46,16 +49,17 @@ public class CortexM0SysTickTest {
 	}
 
 	@Test
-	public void testEnableFlag() {
+	public void testEnableFlag()
+	{
 
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setEnableFlag(true);
 		cortexM01.setRVR(5);
 		cortexM01.setCVR(2);
-		// cortexM01.impuls();
 		assertEquals(0, cortexM01.getCVR());
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++)
+		{
 			cortexM01.impuls();
 		}
 
@@ -67,7 +71,8 @@ public class CortexM0SysTickTest {
 	}
 
 	@Test
-	public void testCountFlag() {
+	public void testCountFlag()
+	{
 		CortexM0SysTick cortexM01 = new CortexM0SysTick();
 		cortexM01.setEnableFlag(true);
 		cortexM01.setRVR(5);
@@ -77,6 +82,5 @@ public class CortexM0SysTickTest {
 		cortexM01.impuls();
 		assertEquals(5, cortexM01.getCVR());
 		assertEquals(true, cortexM01.isCountFlag());
-		}
+	}
 }
-	

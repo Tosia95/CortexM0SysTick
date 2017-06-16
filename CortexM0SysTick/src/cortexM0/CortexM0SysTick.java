@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class CortexM0SysTick extends Observable
 {
-	// instance variables - replace the example below with your own
+
 	private int CVR, RVR;
 	private boolean enableFlag, tickingFlag, countFlag;
 
@@ -111,9 +111,6 @@ public class CortexM0SysTick extends Observable
 			}
 		}
 	}
-
-	
-	
 
 	public String toString()
 	{

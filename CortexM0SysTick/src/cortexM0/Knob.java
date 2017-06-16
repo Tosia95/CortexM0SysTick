@@ -13,37 +13,34 @@ public class Knob extends Component implements MouseListener, MouseMotionListene
 	ActionListener actionListener;// Refers to a list of ActionListener objects
 
 	public Knob()
-	{ // konstruktor bezargumentowy
+	{
 		this(0);
 	}// end of constructor
 
 	public Knob(int knobValue)
-	{ // konstruktor
+	{
 		this.knobValue = this.newKnobValue = 0;
 		addMouseListener(this);
 		addMouseMotionListener(this);
-	}// end of constructor
+	}
 
 	public void addActionListener(ActionListener listener)
 	{
 		actionListener = AWTEventMulticaster.add(actionListener, listener);
-	}// end addActionListener()
-		// -----------------------------------------------------------------------
-		// The following method removes ActionListener objects from the list
-		// described above
+	}
 
 	public void removeActionListener(ActionListener listener)
 	{
 		actionListener = AWTEventMulticaster.remove(actionListener, listener);
-	}// end removeActionListener
+	}
 
 	public Dimension getMinimumSize()
-	{// overridden getMinimumSize()
+	{
 		return new Dimension(100, 100);
-	}// end getMinimumSize()
+	}
 
 	public Dimension getPreferredSize()
-	{// overridden getPreferredSize()
+	{
 		return new Dimension(150, 150);
 	}
 
@@ -54,36 +51,31 @@ public class Knob extends Component implements MouseListener, MouseMotionListene
 		r = Math.min(d.height, d.width);
 		h = d.height;
 		w = d.width;
-		
+
 		g.setColor(Color.black);
-		g.fillOval((w - r) / 2, (h - r) / 2, r+10, r+10);
-		
+		g.fillOval((w - r) / 2, (h - r) / 2, r + 10, r + 10);
+
 		g.setColor(Color.gray);
-		g.fillOval((w - r) / 2, (h - r) / 2, r+5, r+5);
-		
+		g.fillOval((w - r) / 2, (h - r) / 2, r + 5, r + 5);
+
 		g.setColor(Color.pink);
 		g.fillOval((w - r) / 2, (h - r) / 2, r - 1, r - 1);
-		//g.setColor(Color.black);
-		//g.drawString("0",r-,r);
 
 		g.setColor(Color.black);
 		int alfa = 90 - knobValue;
-		g.drawLine(w / 2 + (int) ((r / 2 - 50) * Math.cos(alfa * Math.PI / 180)), 													
+		g.drawLine(w / 2 + (int) ((r / 2 - 50) * Math.cos(alfa * Math.PI / 180)),
 				h / 2 - (int) ((r / 2 - 50) * Math.sin(alfa * Math.PI / 180)),
 				w / 2 + (int) ((r / 2 - 5) * Math.cos(alfa * Math.PI / 180)),
 				h / 2 - (int) ((r / 2 - 5) * Math.sin(alfa * Math.PI / 180)));
 
+		g.setColor(Color.black);
+		setFont(new Font("Helvetica", Font.BOLD, 16));
+		g.drawString(new Integer(convertToHz(newKnobValue)).toString(), w / 2 - 10, h / 2 - 5);
+	}
 
-	    g.setColor(Color.black);
-	    setFont(new Font("Helvetica", Font.BOLD, 16));     
-	    g.drawString(new Integer(convertToHz(newKnobValue)).toString(), w/2-10, h/2-5);
-	     }
-
-	
 	public void setKnobValue(int newKnobValue)
 	{
 		this.newKnobValue = newKnobValue;
-		// repaint(); Thread does it instead
 	}
 
 	public int getKnobValue()
@@ -97,7 +89,7 @@ public class Knob extends Component implements MouseListener, MouseMotionListene
 		int my = getSize().height / 2;
 		int r = Math.min(mx, my);
 		return (((mx - x) * (mx - x) + (my - y) * (my - y)) <= r * r);
-	}// end contains()
+	}
 
 	public void mouseClicked(MouseEvent me)
 	{
@@ -178,4 +170,4 @@ public class Knob extends Component implements MouseListener, MouseMotionListene
 		f.setVisible(true);
 	}
 
-} // end Knob
+}
